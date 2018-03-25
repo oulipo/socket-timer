@@ -1,0 +1,44 @@
+Socket.IO enables real-time bidirectional event-based communication.
+- a Node.js server (this repository)
+- a Javascript client library for the browser (or a Node.js client)
+
+npm install socket.io --save
+
+SERVER
+
+exemple en mode standalone :
+io.on('connection', function(socket){
+  socket.emit('request', /* */) // emit an event to the socket
+  io.emit('broadcast', /* */) // emit an event to all connected sockets
+  socket.on('reply', function(){ /* */ }) // listen to the event
+})
+
+avec un server :
+var server = require('http').createServer()
+var io = require('socket.io')(server)
+io.on('connection', function(client){
+  client.on('event', function(data){})
+  client.on('disconnect', function(){})
+})
+server.listen(3000)
+
+avec express :
+var app = require('express')()
+var server = require('http').createServer(app)
+var io = require('socket.io')(server)
+io.on('connection', function(){ /* … */ })
+server.listen(3000)
+
+exemple socket-timer
+https://medium.com/dailyjs/combining-react-with-socket-io-for-real-time-goodness-d26168429a34
+
+1- écrire le server.js
+2- écrire l'api pour client :
+  npm i --save socket.io-client
+  src/api.js : pour mettre en place le client socket qui communique avec le server afin de démarrer un timer
+  a- subscribeToTimer
+  b- consume timer event émis par le server
+
+3- App.js
+import { subscribeToTimer } from './api';
+et constructor
